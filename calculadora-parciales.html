@@ -3,59 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Parciales 2.0 - Trading</title>
+<title>Calculadora de Parciales - Trading</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-yHqzvX+9aF5H6K6fOStk7kSDEGQ8Y6b1+oV6n2sR1I9lqMvWVD9HURqlWZz0eGll1Z9Z6eLh9dcg3yZTVI8GqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
-    body { font-family:'Inter',sans-serif; margin:0; padding:40px 20px; display:flex; justify-content:center; background:#f0f4f8; transition:background 0.3s;color:#000; }
-    body.dark { background:#121212; color:#e0e0e0; }
-    .container { background:#ffffffcc; backdrop-filter:blur(10px); padding:30px 25px; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.2); max-width:520px; width:100%; transition:all 0.3s; }
-    body.dark .container { background:#1e1e1ecc; box-shadow:0 15px 35px rgba(0,0,0,0.7);}
-    .container:hover { transform:translateY(-5px);}
-    h1 { text-align:center; margin-bottom:20px; font-size:2em; }
-    .explicacion { background:#007BFF; color:white; padding:15px; border-radius:12px; font-size:14px; margin-bottom:20px; line-height:1.5; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
-    label { font-weight:600; margin-top:10px; display:block; }
-    input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #ccc; font-size:16px; transition:0.3s; background:#fff; color:#000; }
-    body.dark input { background:#2a2a2a; color:#e0e0e0; border:1px solid #555;}
-    input:focus { border:2px solid #007BFF; outline:none; box-shadow:0 0 8px rgba(0,123,255,0.5);}
-    button { margin-top:12px; width:100%; padding:12px; border:none; border-radius:12px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:white; font-weight:600; font-size:16px; cursor:pointer; transition:0.2s; }
-    button:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(0,0,0,0.25);}
-    table { width:100%; border-collapse:collapse; margin-top:15px; border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-    body.dark table { box-shadow:0 5px 15px rgba(0,0,0,0.6);}
-    th, td { padding:12px; text-align:center; border-bottom:1px solid #ddd; transition:0.3s; }
-    body.dark th, body.dark td { border-bottom:1px solid #555; color:#e0e0e0;}
-    th { background:#007BFF; color:white; }
-    tr:last-child td { border-bottom:none; }
-    .remove-btn { background:#FF4D4D; border:none; border-radius:6px; padding:6px 12px; color:white; cursor:pointer; font-weight:bold; transition:0.2s;}
-    .remove-btn:hover { transform:scale(1.1);}
-    #resultado { margin-top:25px; font-size:1.3em; font-weight:bold; text-align:center; padding:12px; background:#e7f1ff; border-radius:12px; box-shadow:inset 0 2px 6px rgba(0,123,255,0.2); transition:0.3s; }
-    body.dark #resultado { background:#2a2a2a; color:#00C6FF; box-shadow:inset 0 2px 6px rgba(0,200,255,0.2);}
-    .creditos { margin-top:20px; font-size:12px; text-align:center; color:#555; }
-    .creditos a { color:#007BFF; text-decoration:none; font-weight:600;}
-    .creditos a:hover { text-decoration:underline;}
-    .theme-switch { display:flex; justify-content:flex-end; margin-bottom:15px; align-items:center; font-size:14px; }
-    .theme-switch input[type="checkbox"] { margin-left:10px; transform:scale(1.2); cursor:pointer; }
-    .parcial-positivo { background-color:#d4f8d4; }
+body { font-family:'Inter',sans-serif; margin:0; padding:40px 20px; display:flex; justify-content:center; background:#f0f4f8; transition:background 0.3s;color:#000; }
+body.dark { background:#121212; color:#e0e0e0; }
+.container { background:#ffffffcc; backdrop-filter:blur(10px); padding:30px 25px; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.2); max-width:520px; width:100%; transition:all 0.3s; }
+body.dark .container { background:#1e1e1ecc; box-shadow:0 15px 35px rgba(0,0,0,0.7);}
+.container:hover { transform:translateY(-5px);}
+h1 { text-align:center; margin-bottom:20px; font-size:2em; }
+h2 { text-align:center; font-size:1.2em; color:#555; margin-bottom:20px; }
+body.dark h2 { color:#ccc; }
+.explicacion { background:#007BFF; color:white; padding:15px; border-radius:12px; font-size:14px; margin-bottom:20px; line-height:1.5; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
+label { font-weight:600; margin-top:10px; display:block; }
+input { width:100%; padding:10px; margin-top:5px; border-radius:8px; border:1px solid #ccc; font-size:16px; transition:0.3s; background:#fff; color:#000; }
+body.dark input { background:#2a2a2a; color:#e0e0e0; border:1px solid #555;}
+input:focus { border:2px solid #007BFF; outline:none; box-shadow:0 0 8px rgba(0,123,255,0.5);}
+button { margin-top:12px; width:100%; padding:12px; border:none; border-radius:12px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:white; font-weight:600; font-size:16px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+button:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(0,0,0,0.25);}
+table { width:100%; border-collapse:collapse; margin-top:15px; border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+body.dark table { box-shadow:0 5px 15px rgba(0,0,0,0.6);}
+th, td { padding:12px; text-align:center; border-bottom:1px solid #ddd; transition:0.3s; }
+body.dark th, body.dark td { border-bottom:1px solid #555; color:#e0e0e0;}
+th { background:#007BFF; color:white; }
+tr:last-child td { border-bottom:none; }
+.remove-btn { background:#FF4D4D; border:none; border-radius:6px; padding:6px 12px; color:white; cursor:pointer; font-weight:bold; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+.remove-btn:hover { transform:scale(1.1);}
+#resultado { margin-top:25px; font-size:1.3em; font-weight:bold; text-align:center; padding:12px; background:#e7f1ff; border-radius:12px; box-shadow:inset 0 2px 6px rgba(0,123,255,0.2); transition:0.3s; }
+body.dark #resultado { background:#2a2a2a; color:#00C6FF; box-shadow:inset 0 2px 6px rgba(0,200,255,0.2);}
+.creditos { margin-top:20px; font-size:12px; text-align:center; color:#555; }
+.creditos a { color:#007BFF; text-decoration:none; font-weight:600;}
+.creditos a:hover { text-decoration:underline;}
+.theme-switch { display:flex; justify-content:flex-end; margin-bottom:15px; align-items:center; font-size:14px; }
+.theme-switch input[type="checkbox"] { margin-left:10px; transform:scale(1.2); cursor:pointer; }
+.parcial-positivo { background-color:#d4f8d4; transition:0.3s; }
 </style>
 </head>
 <body>
 
 <div class="container">
     <div class="theme-switch">
-        Modo oscuro <input type="checkbox" id="toggleTheme">
+        <i class="fa-solid fa-moon"></i> <input type="checkbox" id="toggleTheme">
     </div>
 
-    <h1>Calculadora de Parciales 2.0</h1>
+    <h1>Calculadora de Parciales</h1>
 
-    <div class="explicacion">
-        Calcula la ganancia de un trade con parciales.<br>
-        <strong>Uso:</strong> Ingresa riesgo inicial, agrega parciales y observa resultados. 
-    </div>
+    <h2>Calcula tus ganancias por parcial de manera rápida y clara.</h2>
 
     <label for="riesgo">Riesgo inicial ($):</label>
     <input type="number" id="riesgo" placeholder="Ej: 100" oninput="calcular()">
 
-    <button onclick="agregarParcial()">+ Agregar parcial</button>
-    <button onclick="exportCSV()">💾 Exportar CSV</button>
+    <button onclick="agregarParcial()"><i class="fa-solid fa-plus"></i> Agregar parcial</button>
 
     <table id="tablaParciales">
         <thead>
@@ -69,7 +68,7 @@
             <tr>
                 <td><input type="number" class="porcentaje" placeholder="50" oninput="calcular()"></td>
                 <td><input type="number" class="rr" placeholder="1" oninput="calcular()"></td>
-                <td><button class="remove-btn" onclick="eliminarFila(this)">X</button></td>
+                <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
             </tr>
         </tbody>
     </table>
@@ -92,7 +91,7 @@ function agregarParcial() {
     fila.innerHTML = `
         <td><input type="number" class="porcentaje" placeholder="25" oninput="calcular()"></td>
         <td><input type="number" class="rr" placeholder="2" oninput="calcular()"></td>
-        <td><button class="remove-btn" onclick="eliminarFila(this)">X</button></td>
+        <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
     `;
     tbody.appendChild(fila);
     calcular();
@@ -104,7 +103,7 @@ function eliminarFila(boton) {
 }
 
 function calcular() {
-    const riesgo = parseFloat(document.getElementById('riesgo').value);
+    const riesgo = parseFloat(document.getElementById('riesgo').value) || 0;
     const filas = document.querySelectorAll('#tablaParciales tbody tr');
     let gananciaTotal = 0;
     let sumaParciales = 0;
@@ -119,31 +118,10 @@ function calcular() {
         if(ganancia>0) fila.classList.add('parcial-positivo');
     });
 
-    if(sumaParciales>100) {
-        alert("La suma de parciales excede 100%");
-    }
+    if(sumaParciales>100) alert("La suma de parciales excede 100%");
 
     const multiplicador = riesgo>0 ? (gananciaTotal/ riesgo) : 0;
     document.getElementById('resultado').innerText = `Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${gananciaTotal.toFixed(2)}`;
-}
-
-function exportCSV() {
-    const filas = document.querySelectorAll('#tablaParciales tbody tr');
-    let csvContent = "data:text/csv;charset=utf-8,%Porcentaje,%R:R,Ganancia\n";
-    const riesgo = parseFloat(document.getElementById('riesgo').value) || 0;
-    filas.forEach(fila => {
-        const porcentaje = fila.querySelector('.porcentaje').value || 0;
-        const rr = fila.querySelector('.rr').value || 0;
-        const ganancia = ((porcentaje/100)*riesgo*rr).toFixed(2);
-        csvContent += `${porcentaje},${rr},${ganancia}\n`;
-    });
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "parciales.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
 }
 </script>
 
