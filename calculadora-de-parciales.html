@@ -27,15 +27,17 @@ input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ccc
 body.dark input { background:#2a2a2a; border:1px solid #555; color:#e0e0e0; }
 input:focus { outline:none; border:2px solid #007BFF; box-shadow:0 0 8px rgba(0,123,255,0.4); }
 
-button { padding:14px; width:100%; border:none; border-radius:18px; font-weight:600; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition:0.3s; color:#fff; background: linear-gradient(90deg,#007BFF,#00C6FF);}
+button { padding:14px; border:none; border-radius:18px; font-weight:600; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition:0.3s; color:#fff; background: linear-gradient(90deg,#007BFF,#00C6FF);}
 button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25);}
-.reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); margin-top:10px; }
+.reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); }
 .reset-btn:hover { box-shadow:0 6px 16px rgba(255,0,0,0.25); }
 
-/* Separación botones */
+/* Separación y alineación botones */
 #botonesContainer { display:flex; gap:10px; margin-top:10px; }
+#botonesContainer button { flex:1; font-size:16px; padding:14px; }
 
-/* CARDS */
+#capitalBlock button { margin-top:12px; }
+
 .card { background: rgba(255,255,255,0.15); backdrop-filter:blur(12px); border-radius:20px; padding:18px; margin-top:15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); transition:0.3s; opacity:0; transform:translateY(20px); animation:fadeIn 0.5s forwards;}
 body.dark .card { background: rgba(30,30,30,0.3); box-shadow:0 6px 20px rgba(0,0,0,0.6); }
 @keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
@@ -43,27 +45,11 @@ body.dark .card { background: rgba(30,30,30,0.3); box-shadow:0 6px 20px rgba(0,0
 .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .card-header h3 { font-size:1em; font-weight:600; }
 
-/* BOTÓN QUITAR PARCIAL */
-.remove-btn { 
-    background:#FF4D4D; border:none; border-radius:8px; 
-    width:32px; height:32px; padding:0; display:flex; 
-    align-items:center; justify-content:center; cursor:pointer; 
-    font-weight:bold; font-size:16px; transition:0.2s; 
-}
+.remove-btn { background:#FF4D4D; border:none; border-radius:8px; width:32px; height:32px; padding:0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; font-size:16px; transition:0.2s; }
 .remove-btn:hover { transform:scale(1.1); }
 
-/* TOOLTIP */
 .tooltip { position: relative; cursor: help; }
-.tooltip::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 125%; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,0.75); color: #fff;
-    padding:5px 10px; border-radius:6px;
-    font-size:12px; white-space: nowrap;
-    opacity:0; pointer-events:none;
-    transition: opacity 0.3s;
-}
+.tooltip::after { content: attr(data-tip); position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.75); color: #fff; padding:5px 10px; border-radius:6px; font-size:12px; white-space: nowrap; opacity:0; pointer-events:none; transition: opacity 0.3s; }
 .tooltip:hover::after { opacity:1; }
 
 .progress-container { width:100%; height:10px; background:#ddd; border-radius:8px; margin-top:10px; overflow:hidden; }
@@ -84,7 +70,7 @@ body.dark #capitalBlock.show { background:#2a2a2a; }
 
 #warning { margin-top:12px; text-align:center; font-size:14px; font-weight:bold; color:red; display:none; }
 
-canvas { margin-top:20px; border-radius:20px; background:rgba(255,255,255,0.1); }
+canvas { width:100% !important; height:auto !important; max-height:400px; margin-top:20px; border-radius:20px; }
 body.dark canvas { background:rgba(30,30,30,0.2); }
 
 .creditos { margin-top:25px; font-size:12px; text-align:center; color:#555; }
@@ -121,7 +107,7 @@ body.dark canvas { background:rgba(30,30,30,0.2); }
 <label>Capital total de la cuenta ($): <input type="number" id="capital"></label>
 <button id="calcularCapitalBtn">Calcular impacto</button>
 <div id="resultadoCapital" style="margin-top:15px; font-size:1.1em; font-weight:bold;"></div>
-<canvas id="chartParciales" width="400" height="400"></canvas>
+<canvas id="chartParciales"></canvas>
 </div>
 
 <div class="creditos">
@@ -195,7 +181,7 @@ function calcular(){
     chart=new Chart(ctx,{
         type:'pie',
         data:{ labels, datasets:[{label:'Ganancia por parcial', data, backgroundColor:colors}] },
-        options:{ responsive:true, plugins:{ legend:{ position:'bottom' } } }
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } }
     });
 }
 
