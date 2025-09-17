@@ -153,8 +153,12 @@ function crearCard(porcentaje='', rr=''){
 function calcular(){
     const riesgo=parseFloat(riesgoInput.value)||0;
     const cards=cardsContainer.querySelectorAll('.card');
-    beneficioTotal=0; let sumaPorc=0;
+    beneficioTotal=0; 
+    let sumaPorc=0;
     let labels=[], data=[], colors=[];
+    
+    const palette = ['#4caf50','#2196f3','#ff9800','#9c27b0','#00bcd4','#ff5722','#8bc34a','#ffc107','#e91e63','#03a9f4'];
+
     cards.forEach((card,i)=>{
         const porc=parseFloat(card.querySelector('.porcentaje').value)||0;
         const rr=parseFloat(card.querySelector('.rr').value)||0;
@@ -168,7 +172,7 @@ function calcular(){
 
         labels.push(`Parcial ${i+1}`);
         data.push(ganancia);
-        colors.push(ganancia>=0?'#4caf50':'#e53935');
+        colors.push(palette[i % palette.length]);
     });
 
     document.getElementById('warning').style.display=(sumaPorc>100)?"block":"none";
