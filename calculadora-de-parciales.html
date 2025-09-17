@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Parciales - App Style</title>
+<title>Calculadora de Parciales - Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-/* RESET */
+/* RESET Y TIPOGRAFÍA */
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:'Inter',sans-serif; background:#f0f4f8; color:#000; display:flex; justify-content:center; padding:40px 20px; transition:0.3s;}
 body.dark { background:#121212; color:#e0e0e0; }
 
 /* CONTAINER */
-.container { width:100%; max-width:650px; }
+.container { width:100%; max-width:700px; }
 header { text-align:center; margin-bottom:20px; }
 h1 { font-family:'Poppins',sans-serif; font-size:2.3em; margin-bottom:4px; }
-h2 { font-size:1.1em; color:#555; }
+h2 { font-size:1.1em; color:#555; margin-bottom:20px; }
 body.dark h2 { color:#ccc; }
 
 /* THEME TOGGLE */
@@ -26,7 +27,7 @@ body.dark .theme-toggle { background:#2a2a2a; color:#ffd43b; }
 
 /* INPUTS Y BOTONES */
 label { font-weight:600; display:block; margin-top:15px; font-size:15px; }
-input { width:100%; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px; margin-top:6px; background:#fff; color:#000; transition:0.3s; }
+input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #ccc; font-size:16px; margin-top:6px; background:#fff; color:#000; transition:0.3s; }
 body.dark input { background:#2a2a2a; border:1px solid #555; color:#e0e0e0; }
 input:focus { outline:none; border:2px solid #007BFF; box-shadow:0 0 8px rgba(0,123,255,0.4); }
 
@@ -40,18 +41,15 @@ button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25
 body.dark .card { background: rgba(30,30,30,0.3); box-shadow:0 6px 20px rgba(0,0,0,0.6); }
 @keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
 
-/* BARRA DE PROGRESO */
-.progress-container { width:100%; height:10px; background:#ddd; border-radius:8px; margin-top:10px; overflow:hidden; }
-.progress { height:100%; border-radius:8px; width:0%; background: #4caf50; transition:width 0.5s, background 0.5s; }
-body.dark .progress-container { background:#555; }
-
-/* CARD HEADER */
-.card-header { display:flex; justify-content:space-between; align-items:center; }
+.card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .card-header h3 { font-size:1em; font-weight:600; }
 .remove-btn { background:#FF4D4D; border:none; border-radius:8px; padding:6px 12px; color:white; cursor:pointer; font-weight:bold; transition:0.2s; }
 .remove-btn:hover { transform:scale(1.1); }
 
-/* RESULTADOS */
+.progress-container { width:100%; height:10px; background:#ddd; border-radius:8px; margin-top:10px; overflow:hidden; }
+.progress { height:100%; border-radius:8px; width:0%; background: #4caf50; transition:width 0.5s, background 0.5s; }
+body.dark .progress-container { background:#555; }
+
 #resultado { margin-top:25px; font-size:1.3em; font-weight:bold; text-align:center; padding:15px; border-radius:18px; transition:0.3s; box-shadow: inset 0 2px 6px rgba(0,123,255,0.1); }
 #resultado.verde { background:#e6ffe6; color:#2e7d32; }
 #resultado.rojo { background:#ffe6e6; color:#c62828; }
@@ -60,13 +58,18 @@ body.dark #resultado.verde { background:#1b3321; color:#81c784; }
 body.dark #resultado.rojo { background:#331b1b; color:#ef5350; }
 body.dark #resultado.gris { background:#2a2a2a; color:#aaa; }
 
-/* CAPITAL CARD */
 #capitalBlock { margin-top:20px; padding:0; border-radius:20px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s ease, opacity 0.5s ease, padding 0.5s; }
-#capitalBlock.show { padding:20px; max-height:500px; opacity:1; background:#f9f9f9; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.5s; }
+#capitalBlock.show { padding:20px; max-height:600px; opacity:1; background:#f9f9f9; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.5s; }
 body.dark #capitalBlock.show { background:#2a2a2a; }
 
-/* ALERT */
 #warning { margin-top:12px; text-align:center; font-size:14px; font-weight:bold; color:red; display:none; }
+
+canvas { margin-top:20px; border-radius:20px; background:rgba(255,255,255,0.1); }
+body.dark canvas { background:rgba(30,30,30,0.2); }
+
+.creditos { margin-top:25px; font-size:12px; text-align:center; color:#555; }
+.creditos a { color:#007BFF; text-decoration:none; font-weight:600; }
+.creditos a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -75,7 +78,7 @@ body.dark #capitalBlock.show { background:#2a2a2a; }
 
 <header>
 <h1>Calculadora de Parciales</h1>
-<h2>Controla tus ganancias al tomar parciales en tus trades</h2>
+<h2>Visualiza tu impacto con gráficos de cada parcial</h2>
 </header>
 
 <label>Riesgo inicial ($): <input type="number" id="riesgo" value="100"></label>
@@ -86,14 +89,16 @@ body.dark #capitalBlock.show { background:#2a2a2a; }
 <div id="warning">⚠️ La suma de parciales excede el 100%</div>
 <div id="resultado" class="gris">Multiplicador: 0x | Ganancia total: $0 | +0%</div>
 
-<div style="margin-top: 20px; text-align:center;">
+<div style="margin-top:20px; text-align:center;">
 <button id="toggleCapitalBtn">📊 Ver impacto en la cuenta</button>
 </div>
+
 <div id="capitalBlock">
 <h3>Impacto sobre el capital</h3>
 <label>Capital total de la cuenta ($): <input type="number" id="capital"></label>
 <button id="calcularCapitalBtn">Calcular impacto</button>
 <div id="resultadoCapital" style="margin-top:15px; font-size:1.1em; font-weight:bold;"></div>
+<canvas id="chartParciales" width="400" height="400"></canvas>
 </div>
 
 <div class="creditos">
@@ -114,7 +119,9 @@ const capitalInput=document.getElementById('capital');
 const resultadoCapitalDiv=document.getElementById('resultadoCapital');
 const themeBtn=document.getElementById('toggleTheme');
 const icon=themeBtn.querySelector('i');
+const ctx=document.getElementById('chartParciales').getContext('2d');
 let beneficioTotal=0;
+let chart=null;
 
 function crearCard(porcentaje='', rr=''){
     const card=document.createElement('div'); card.className='card';
@@ -129,10 +136,8 @@ function crearCard(porcentaje='', rr=''){
     `;
     const removeBtn=card.querySelector('.remove-btn');
     removeBtn.addEventListener('click',()=>{ card.remove(); calcular(); });
-    const inputPorc=card.querySelector('.porcentaje');
-    const inputRR=card.querySelector('.rr');
-    inputPorc.addEventListener('input',calcular);
-    inputRR.addEventListener('input',calcular);
+    card.querySelector('.porcentaje').addEventListener('input',calcular);
+    card.querySelector('.rr').addEventListener('input',calcular);
     cardsContainer.appendChild(card);
     calcular();
 }
@@ -141,20 +146,29 @@ function calcular(){
     const riesgo=parseFloat(riesgoInput.value)||0;
     const cards=cardsContainer.querySelectorAll('.card');
     beneficioTotal=0; let sumaPorc=0;
-    cards.forEach(card=>{
+    let labels=[], data=[], colors=[];
+    cards.forEach((card,i)=>{
         const porc=parseFloat(card.querySelector('.porcentaje').value)||0;
         const rr=parseFloat(card.querySelector('.rr').value)||0;
         sumaPorc+=porc;
         const ganancia=porc/100*riesgo*rr;
         beneficioTotal+=ganancia;
         const barra=card.querySelector('.progress');
-        barra.style.width=porc+'%';
+        barra.style.width=Math.min(porc,100)+'%';
         barra.style.background=ganancia>=0?'#4caf50':'#e53935';
+        labels.push(`Parcial ${i+1}`);
+        data.push(ganancia);
+        colors.push(ganancia>=0?'#4caf50':'#e53935');
     });
     document.getElementById('warning').style.display=(sumaPorc>100)?"block":"none";
     const multiplicador=riesgo>0?beneficioTotal/riesgo:0;
     const porcentaje=riesgo>0?(beneficioTotal/riesgo)*100:0;
     resultadoDiv.textContent=`Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | +${porcentaje.toFixed(2)}%`;
+
+    if(chart){
+        chart.destroy();
+    }
+    chart=new Chart(ctx,{type:'pie',data:{labels,dataSets:{label:'Ganancia por parcial',data,dataSets:[],backgroundColor:colors}}});
 }
 
 addParcialBtn.addEventListener('click',()=>crearCard());
@@ -173,7 +187,7 @@ themeBtn.addEventListener('click',()=>{
     icon.classList.replace(document.body.classList.contains('dark')?"fa-moon":"fa-sun",document.body.classList.contains('dark')?"fa-sun":"fa-moon");
 });
 
-crearCard(); // card inicial
+crearCard();
 </script>
 </body>
 </html>
