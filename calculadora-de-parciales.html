@@ -24,7 +24,7 @@ h2 { text-align:center; font-size:1.1em; color:#555; margin-bottom:25px; }
 body.dark h2 { color:#ccc; }
 
 label { font-weight:600; margin-top:15px; display:block; font-size:15px; }
-.input-with-tooltip { display:flex; align-items:center; gap:6px; }
+
 .tooltip { position: relative; display: inline-block; cursor: pointer; color:#007BFF; font-size:14px; }
 .tooltiptext { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: left; border-radius: 8px; padding: 8px; position: absolute; z-index: 10; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s;}
 .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
@@ -76,75 +76,64 @@ input.error { border:2px solid red !important; }
 <body>
 
 <div class="container">
-    <button id="toggleTheme" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+<button id="toggleTheme" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
 
-    <h1>Calculadora de Parciales</h1>
-    <h2>Controla tus ganancias al tomar parciales en tus trades.</h2>
+<h1>Calculadora de Parciales</h1>
+<h2>Controla tus ganancias al tomar parciales en tus trades.</h2>
 
-    <label for="riesgo">Riesgo inicial ($):</label>
-    <input type="number" id="riesgo" placeholder="Ej: 100" oninput="calcular()">
+<label for="riesgo">Riesgo inicial ($):</label>
+<input type="number" id="riesgo" placeholder="Ej: 100">
 
-    <button onclick="agregarParcial()"><i class="fa-solid fa-plus"></i> Agregar parcial</button>
-    <button class="reset-btn" onclick="resetear()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+<button id="addParcialBtn"><i class="fa-solid fa-plus"></i> Agregar parcial</button>
+<button class="reset-btn" id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
 
-    <table id="tablaParciales">
-        <thead>
-            <tr>
-                <th>
-                    % de posición 
-                    <span class="tooltip"><i class="fa-solid fa-circle-info"></i>
-                        <span class="tooltiptext">Porcentaje de tu posición que cierras en este parcial (ej: 50% de la operación).</span>
-                    </span>
-                </th>
-                <th>
-                    Ganancia (R:R) 
-                    <span class="tooltip"><i class="fa-solid fa-circle-info"></i>
-                        <span class="tooltiptext">Relación riesgo-beneficio (ej: 2 significa 2 veces lo que arriesgaste).</span>
-                    </span>
-                </th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="number" class="porcentaje" placeholder="50" oninput="calcular()"></td>
-                <td><input type="number" class="rr" placeholder="1" oninput="calcular()"></td>
-                <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
-            </tr>
-        </tbody>
-    </table>
+<table id="tablaParciales">
+<thead>
+<tr>
+<th>% de posición <span class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltiptext">Porcentaje de tu posición que cierras en este parcial.</span></span></th>
+<th>Ganancia (R:R) <span class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltiptext">Relación riesgo-beneficio.</span></span></th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
-    <div id="warning">⚠️ La suma de parciales excede el 100%</div>
+<div id="warning">⚠️ La suma de parciales excede el 100%</div>
 
-    <div id="resultado" class="gris">Multiplicador: 0x | Ganancia total: $0 | +0%</div>
+<div id="resultado" class="gris">Multiplicador: 0x | Ganancia total: $0 | +0%</div>
 
-    <div style="margin-top: 20px; text-align:center;">
-        <button type="button" onclick="toggleCapitalBlock()">📊 Ver impacto en la cuenta</button>
-    </div>
+<div style="margin-top: 20px; text-align:center;">
+<button type="button" id="toggleCapitalBtn">📊 Ver impacto en la cuenta</button>
+</div>
 
-    <div id="capitalBlock">
-        <h3>Impacto sobre el capital</h3>
-        <label for="capital">Capital total de la cuenta ($):</label>
-        <input type="number" id="capital" placeholder="Ej: 1000" oninput="guardarDatos()" />
+<div id="capitalBlock">
+<h3>Impacto sobre el capital</h3>
+<label for="capital">Capital total de la cuenta ($):</label>
+<input type="number" id="capital" placeholder="Ej: 1000" />
+<button type="button" id="calcularCapitalBtn">Calcular impacto</button>
+<div id="resultadoCapital" style="margin-top:15px; font-size:1.1em; font-weight:bold;"></div>
+</div>
 
-        <button type="button" onclick="calcularImpacto()">Calcular impacto</button>
+<div class="conclusion">
+<i class="fa-solid fa-lightbulb"></i> El <strong>multiplicador</strong> indica cuántas veces tu riesgo inicial fue convertido en ganancia.<br>
+La <strong>ganancia total</strong> muestra el beneficio acumulado en $ y en <strong>% sobre el riesgo</strong>.
+</div>
 
-        <div id="resultadoCapital" style="margin-top:15px; font-size:1.1em; font-weight:bold;"></div>
-    </div>
-
-    <div class="conclusion">
-        <i class="fa-solid fa-lightbulb"></i> El <strong>multiplicador</strong> indica cuántas veces tu riesgo inicial fue convertido en ganancia.<br>
-        La <strong>ganancia total</strong> muestra el beneficio acumulado en $ y en <strong>% sobre el riesgo</strong>.
-    </div>
-
-    <div class="creditos">
-        Calculadora por <strong><a href="https://www.skool.com/@gabriel-navarro-3956?g=ef-trading" target="_blank">Gabo</a></strong>, miembro de <a href="https://www.skool.com/ef-trading" target="_blank">EF Trading</a>
-    </div>
+<div class="creditos">
+Calculadora por <strong><a href="https://www.skool.com/@gabriel-navarro-3956?g=ef-trading" target="_blank">Gabo</a></strong>, miembro de <a href="https://www.skool.com/ef-trading" target="_blank">EF Trading</a>
+</div>
 </div>
 
 <script>
 const themeBtn = document.getElementById('toggleTheme');
 const icon = themeBtn.querySelector("i");
+const addParcialBtn = document.getElementById('addParcialBtn');
+const resetBtn = document.getElementById('resetBtn');
+const toggleCapitalBtn = document.getElementById('toggleCapitalBtn');
+const capitalBlock = document.getElementById('capitalBlock');
+const calcularCapitalBtn = document.getElementById('calcularCapitalBtn');
+
 let beneficioTotal = 0;
 
 themeBtn.addEventListener('click', () => {
@@ -159,35 +148,40 @@ themeBtn.addEventListener('click', () => {
 function agregarParcial(porcentaje="", rr="") {
     const tbody = document.querySelector("#tablaParciales tbody");
     const fila = document.createElement("tr");
-    fila.innerHTML = `
-        <td><input type="number" class="porcentaje" placeholder="25" value="${porcentaje}"></td>
-        <td><input type="number" class="rr" placeholder="2" value="${rr}"></td>
-        <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
-    `;
+
+    const tdPorcentaje = document.createElement("td");
+    const inputPorc = document.createElement("input");
+    inputPorc.type = "number";
+    inputPorc.placeholder = "25";
+    inputPorc.value = porcentaje;
+    inputPorc.addEventListener("input", calcular);
+    tdPorcentaje.appendChild(inputPorc);
+
+    const tdRR = document.createElement("td");
+    const inputRR = document.createElement("input");
+    inputRR.type = "number";
+    inputRR.placeholder = "2";
+    inputRR.value = rr;
+    inputRR.addEventListener("input", calcular);
+    tdRR.appendChild(inputRR);
+
+    const tdAccion = document.createElement("td");
+    const btnRemove = document.createElement("button");
+    btnRemove.className = "remove-btn";
+    btnRemove.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    btnRemove.addEventListener("click", ()=>{fila.remove(); calcular();});
+    tdAccion.appendChild(btnRemove);
+
+    fila.appendChild(tdPorcentaje);
+    fila.appendChild(tdRR);
+    fila.appendChild(tdAccion);
     tbody.appendChild(fila);
-    fila.querySelectorAll('input').forEach(input => input.addEventListener('input', calcular));
+
     calcular();
 }
 
-function eliminarFila(boton) {
-    boton.closest('tr').remove();
-    calcular();
-}
-
-function resetear() {
-    document.getElementById('riesgo').value = "";
-    document.getElementById('capital').value = "";
-    document.querySelector("#tablaParciales tbody").innerHTML = `
-        <tr>
-            <td><input type="number" class="porcentaje" placeholder="50" oninput="calcular()"></td>
-            <td><input type="number" class="rr" placeholder="1" oninput="calcular()"></td>
-            <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
-        </tr>`;
-    document.getElementById('resultado').innerText = "Multiplicador: 0x | Ganancia total: $0 | +0%";
-    document.getElementById('resultado').className = "gris";
-    document.getElementById('resultadoCapital').innerText = "";
-    localStorage.removeItem("parcialesData");
-}
+// Inicializar con un parcial por defecto
+agregarParcial();
 
 function calcular() {
     const riesgo = parseFloat(document.getElementById('riesgo').value) || 0;
@@ -197,10 +191,8 @@ function calcular() {
 
     filas.forEach(fila => {
         fila.classList.remove('parcial-positivo');
-        const porcentajeInput = fila.querySelector('.porcentaje');
-        const rrInput = fila.querySelector('.rr');
-        const porcentaje = parseFloat(porcentajeInput.value) || 0;
-        const rr = parseFloat(rrInput.value) || 0;
+        const porcentaje = parseFloat(fila.querySelector('td:nth-child(1) input').value) || 0;
+        const rr = parseFloat(fila.querySelector('td:nth-child(2) input').value) || 0;
         sumaParciales += porcentaje;
         const ganancia = (porcentaje/100)*riesgo*rr;
         beneficioTotal += ganancia;
@@ -213,4 +205,20 @@ function calcular() {
     const porcentajeGanancia = riesgo>0 ? (beneficioTotal/ riesgo)*100 : 0;
 
     const resultado = document.getElementById('resultado');
-    resultado.innerText = `Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | ${porcentajeGanancia.toFixed(2)}%`;
+    resultado.innerText = `Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | +${porcentajeGanancia.toFixed(2)}%`;
+}
+
+// Eventos botones
+addParcialBtn.addEventListener("click", ()=>agregarParcial());
+resetBtn.addEventListener("click", ()=>{document.getElementById('riesgo').value=""; document.querySelector("#tablaParciales tbody").innerHTML=""; agregarParcial(); calcular();});
+toggleCapitalBtn.addEventListener("click", ()=>{capitalBlock.classList.toggle("show");});
+calcularCapitalBtn.addEventListener("click", ()=>{
+    const capital = parseFloat(document.getElementById('capital').value)||0;
+    if(capital>0){
+        const porcentajeImpacto = (beneficioTotal/capital)*100;
+        document.getElementById('resultadoCapital').innerText = `Ganancia sobre capital: $${beneficioTotal.toFixed(2)} | +${porcentajeImpacto.toFixed(2)}%`;
+    }
+});
+</script>
+</body>
+</html>
