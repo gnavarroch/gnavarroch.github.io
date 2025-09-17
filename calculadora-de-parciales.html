@@ -3,116 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Parciales - Trading</title>
+<title>Calculadora de Parciales - App Style</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
-body { font-family:'Inter',sans-serif; margin:0; padding:50px 20px; display:flex; justify-content:center; background:#f0f4f8; color:#000; transition:0.3s;}
+/* RESET */
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Inter',sans-serif; background:#f0f4f8; color:#000; display:flex; justify-content:center; padding:40px 20px; transition:0.3s;}
 body.dark { background:#121212; color:#e0e0e0; }
 
-.container { background:#ffffffcc; backdrop-filter:blur(10px); padding:40px 35px; border-radius:24px; box-shadow:0 15px 35px rgba(0,0,0,0.2); max-width:580px; width:100%; transition:all 0.3s; position:relative;}
-body.dark .container { background:#1e1e1ecc; box-shadow:0 15px 35px rgba(0,0,0,0.7);}
-.container:hover { transform:translateY(-4px);}
+/* CONTAINER */
+.container { width:100%; max-width:650px; }
+header { text-align:center; margin-bottom:20px; }
+h1 { font-family:'Poppins',sans-serif; font-size:2.3em; margin-bottom:4px; }
+h2 { font-size:1.1em; color:#555; }
+body.dark h2 { color:#ccc; }
 
-.theme-toggle { position:absolute; top:15px; right:15px; background:#f0f0f0; border:none; border-radius:50%; width:40px; height:40px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:0.3s; box-shadow:0 3px 8px rgba(0,0,0,0.15);}
+/* THEME TOGGLE */
+.theme-toggle { position:absolute; top:20px; right:20px; background:#f0f0f0; border:none; border-radius:50%; width:45px; height:45px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:0.3s; box-shadow:0 3px 8px rgba(0,0,0,0.15);}
 .theme-toggle:hover { transform:scale(1.1);}
 body.dark .theme-toggle { background:#2a2a2a; color:#ffd43b; }
 
-h1 { font-family:'Poppins',sans-serif; text-align:center; margin-bottom:10px; font-size:2.1em; }
-h2 { text-align:center; font-size:1.1em; color:#555; margin-bottom:25px; }
-body.dark h2 { color:#ccc; }
+/* INPUTS Y BOTONES */
+label { font-weight:600; display:block; margin-top:15px; font-size:15px; }
+input { width:100%; padding:14px; border-radius:12px; border:1px solid #ccc; font-size:16px; margin-top:6px; background:#fff; color:#000; transition:0.3s; }
+body.dark input { background:#2a2a2a; border:1px solid #555; color:#e0e0e0; }
+input:focus { outline:none; border:2px solid #007BFF; box-shadow:0 0 8px rgba(0,123,255,0.4); }
 
-label { font-weight:600; margin-top:15px; display:block; font-size:15px; }
-
-.tooltip { position: relative; display: inline-block; cursor: pointer; color:#007BFF; }
-.tooltip .tooltiptext { visibility: hidden; width:200px; background:#333; color:#fff; text-align:left; padding:6px; border-radius:6px; position:absolute; z-index:10; bottom:125%; left:50%; transform:translateX(-50%); opacity:0; transition:opacity 0.3s;}
-.tooltip:hover .tooltiptext { visibility: visible; opacity:1; }
-
-input { width:100%; padding:12px; margin-top:6px; border-radius:10px; border:1px solid #ccc; font-size:16px; transition:0.3s; background:#fff; color:#000; box-sizing:border-box;}
-body.dark input { background:#2a2a2a; color:#e0e0e0; border:1px solid #555;}
-input:focus { border:2px solid #007BFF; outline:none; box-shadow:0 0 8px rgba(0,123,255,0.5); }
-
-button { margin-top:15px; width:100%; padding:14px; border:none; border-radius:14px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:white; font-weight:600; font-size:16px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;}
-button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.2);}
-.reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); margin-top:10px;}
+button { padding:14px; width:100%; border:none; border-radius:18px; font-weight:600; font-size:16px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition:0.3s; color:#fff; background: linear-gradient(90deg,#007BFF,#00C6FF);}
+button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25);}
+.reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); margin-top:10px; }
 .reset-btn:hover { box-shadow:0 6px 16px rgba(255,0,0,0.25); }
 
-table { width:100%; border-collapse: separate; border-spacing:0; margin-top:20px; border-radius:14px; overflow:visible; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-body.dark table { box-shadow:0 5px 15px rgba(0,0,0,0.6);}
-th, td { padding:14px; text-align:center; border-bottom:1px solid #ddd; font-size:15px; overflow:visible;}
-body.dark th, body.dark td { border-bottom:1px solid #555; color:#e0e0e0;}
-th { background:#007BFF; color:white; font-size:15px; overflow:visible;}
-tr:last-child td { border-bottom:none; }
+/* CARDS */
+.card { background: rgba(255,255,255,0.15); backdrop-filter:blur(12px); border-radius:20px; padding:18px; margin-top:15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); transition:0.3s; opacity:0; transform:translateY(20px); animation:fadeIn 0.5s forwards;}
+body.dark .card { background: rgba(30,30,30,0.3); box-shadow:0 6px 20px rgba(0,0,0,0.6); }
+@keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
 
-.remove-btn { background:#FF4D4D; border:none; border-radius:8px; padding:8px 14px; color:white; cursor:pointer; font-weight:bold; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+/* BARRA DE PROGRESO */
+.progress-container { width:100%; height:10px; background:#ddd; border-radius:8px; margin-top:10px; overflow:hidden; }
+.progress { height:100%; border-radius:8px; width:0%; background: #4caf50; transition:width 0.5s, background 0.5s; }
+body.dark .progress-container { background:#555; }
+
+/* CARD HEADER */
+.card-header { display:flex; justify-content:space-between; align-items:center; }
+.card-header h3 { font-size:1em; font-weight:600; }
+.remove-btn { background:#FF4D4D; border:none; border-radius:8px; padding:6px 12px; color:white; cursor:pointer; font-weight:bold; transition:0.2s; }
 .remove-btn:hover { transform:scale(1.1); }
 
-#resultado { margin-top:30px; font-size:1.25em; font-weight:bold; text-align:center; padding:15px; border-radius:14px; transition:0.3s; box-shadow: inset 0 2px 6px rgba(0,123,255,0.1);}
-#resultado.verde { background:#e6ffe6; color:#2e7d32;}
-#resultado.rojo { background:#ffe6e6; color:#c62828;}
-#resultado.gris { background:#f0f0f0; color:#555;}
-body.dark #resultado.verde { background:#1b3321; color:#81c784;}
-body.dark #resultado.rojo { background:#331b1b; color:#ef5350;}
-body.dark #resultado.gris { background:#2a2a2a; color:#aaa;}
+/* RESULTADOS */
+#resultado { margin-top:25px; font-size:1.3em; font-weight:bold; text-align:center; padding:15px; border-radius:18px; transition:0.3s; box-shadow: inset 0 2px 6px rgba(0,123,255,0.1); }
+#resultado.verde { background:#e6ffe6; color:#2e7d32; }
+#resultado.rojo { background:#ffe6e6; color:#c62828; }
+#resultado.gris { background:#f0f0f0; color:#555; }
+body.dark #resultado.verde { background:#1b3321; color:#81c784; }
+body.dark #resultado.rojo { background:#331b1b; color:#ef5350; }
+body.dark #resultado.gris { background:#2a2a2a; color:#aaa; }
 
-#capitalBlock { margin-top:20px; padding:0; border-radius:16px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s ease, opacity 0.5s ease, padding 0.5s; }
-#capitalBlock.show { padding:20px; max-height:500px; opacity:1; background:#f9f9f9; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+/* CAPITAL CARD */
+#capitalBlock { margin-top:20px; padding:0; border-radius:20px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s ease, opacity 0.5s ease, padding 0.5s; }
+#capitalBlock.show { padding:20px; max-height:500px; opacity:1; background:#f9f9f9; box-shadow:0 4px 15px rgba(0,0,0,0.1); transition:0.5s; }
 body.dark #capitalBlock.show { background:#2a2a2a; }
 
+/* ALERT */
 #warning { margin-top:12px; text-align:center; font-size:14px; font-weight:bold; color:red; display:none; }
-
-.conclusion { margin-top:18px; font-size:14px; line-height:1.6; text-align:center; color:#444; }
-body.dark .conclusion { color:#bbb; }
-
-.creditos { margin-top:25px; font-size:12px; text-align:center; color:#555; }
-.creditos a { color:#007BFF; text-decoration:none; font-weight:600;}
-.creditos a:hover { text-decoration:underline;}
-
-.parcial-positivo { background-color:#d4f8d4; transition:0.3s; }
 </style>
 </head>
 <body>
 <div class="container">
 <button id="toggleTheme" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
 
+<header>
 <h1>Calculadora de Parciales</h1>
-<h2>Controla tus ganancias al tomar parciales en tus trades.</h2>
+<h2>Controla tus ganancias al tomar parciales en tus trades</h2>
+</header>
 
-<label>Riesgo inicial ($):
-<input type="number" id="riesgo" value="100"></label>
-
+<label>Riesgo inicial ($): <input type="number" id="riesgo" value="100"></label>
 <button id="addParcial">Agregar parcial</button>
 <button class="reset-btn" id="resetBtn">Reset</button>
 
-<table>
-<thead>
-<tr>
-<th>% de posición <span class="tooltip">ℹ<span class="tooltiptext">Porcentaje de la posición cerrada en este parcial</span></span></th>
-<th>R:R <span class="tooltip">ℹ<span class="tooltiptext">Relación riesgo-beneficio</span></span></th>
-<th>Acción</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-
+<div id="cardsContainer"></div>
 <div id="warning">⚠️ La suma de parciales excede el 100%</div>
-
 <div id="resultado" class="gris">Multiplicador: 0x | Ganancia total: $0 | +0%</div>
 
 <div style="margin-top: 20px; text-align:center;">
 <button id="toggleCapitalBtn">📊 Ver impacto en la cuenta</button>
 </div>
-
 <div id="capitalBlock">
 <h3>Impacto sobre el capital</h3>
 <label>Capital total de la cuenta ($): <input type="number" id="capital"></label>
 <button id="calcularCapitalBtn">Calcular impacto</button>
 <div id="resultadoCapital" style="margin-top:15px; font-size:1.1em; font-weight:bold;"></div>
-</div>
-
-<div class="conclusion">
-<i class="fa-solid fa-lightbulb"></i> El <strong>multiplicador</strong> indica cuántas veces tu riesgo inicial fue convertido en ganancia.<br>
-La <strong>ganancia total</strong> muestra el beneficio acumulado en $ y en <strong>% sobre el riesgo</strong>.
 </div>
 
 <div class="creditos">
@@ -121,70 +102,64 @@ Calculadora por <strong><a href="https://www.skool.com/@gabriel-navarro-3956?g=e
 </div>
 
 <script>
-const tbody = document.getElementById('tbody');
-const riesgoInput = document.getElementById('riesgo');
-const resultadoDiv = document.getElementById('resultado');
-const addParcialBtn = document.getElementById('addParcial');
-const resetBtn = document.getElementById('resetBtn');
-const toggleCapitalBtn = document.getElementById('toggleCapitalBtn');
-const capitalBlock = document.getElementById('capitalBlock');
-const calcularCapitalBtn = document.getElementById('calcularCapitalBtn');
-const capitalInput = document.getElementById('capital');
-const resultadoCapitalDiv = document.getElementById('resultadoCapital');
-const themeBtn = document.getElementById('toggleTheme');
-const icon = themeBtn.querySelector('i');
-let beneficioTotal = 0;
+const cardsContainer=document.getElementById('cardsContainer');
+const riesgoInput=document.getElementById('riesgo');
+const resultadoDiv=document.getElementById('resultado');
+const addParcialBtn=document.getElementById('addParcial');
+const resetBtn=document.getElementById('resetBtn');
+const toggleCapitalBtn=document.getElementById('toggleCapitalBtn');
+const capitalBlock=document.getElementById('capitalBlock');
+const calcularCapitalBtn=document.getElementById('calcularCapitalBtn');
+const capitalInput=document.getElementById('capital');
+const resultadoCapitalDiv=document.getElementById('resultadoCapital');
+const themeBtn=document.getElementById('toggleTheme');
+const icon=themeBtn.querySelector('i');
+let beneficioTotal=0;
 
-function agregarParcial(porcentaje='', rr=''){
-    const tr=document.createElement('tr');
-    const tdPorc=document.createElement('td');
-    const inputPorc=document.createElement('input'); inputPorc.type='number'; inputPorc.value=porcentaje;
-    tdPorc.appendChild(inputPorc);
-
-    const tdRR=document.createElement('td');
-    const inputRR=document.createElement('input'); inputRR.type='number'; inputRR.value=rr;
-    tdRR.appendChild(inputRR);
-
-    const tdAccion=document.createElement('td');
-    const btnRemove=document.createElement('button'); btnRemove.className='remove-btn'; btnRemove.innerHTML='<i class="fa-solid fa-xmark"></i>';
-    btnRemove.addEventListener('click',()=>{ tr.remove(); calcular(); });
-    tdAccion.appendChild(btnRemove);
-
-    tr.appendChild(tdPorc); tr.appendChild(tdRR); tr.appendChild(tdAccion);
-    tbody.appendChild(tr);
-
+function crearCard(porcentaje='', rr=''){
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`
+        <div class="card-header">
+            <h3>Parcial</h3>
+            <button class="remove-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <label>% de posición: <input type="number" class="porcentaje" value="${porcentaje}"></label>
+        <label>R:R: <input type="number" class="rr" value="${rr}"></label>
+        <div class="progress-container"><div class="progress"></div></div>
+    `;
+    const removeBtn=card.querySelector('.remove-btn');
+    removeBtn.addEventListener('click',()=>{ card.remove(); calcular(); });
+    const inputPorc=card.querySelector('.porcentaje');
+    const inputRR=card.querySelector('.rr');
     inputPorc.addEventListener('input',calcular);
     inputRR.addEventListener('input',calcular);
-
+    cardsContainer.appendChild(card);
     calcular();
 }
 
 function calcular(){
-    const riesgo = parseFloat(riesgoInput.value)||0;
-    const filas=tbody.querySelectorAll('tr');
-    beneficioTotal=0;
-    let sumaPorc=0;
-    filas.forEach(fila=>{
-        const porc=parseFloat(fila.cells[0].querySelector('input').value)||0;
-        const rr=parseFloat(fila.cells[1].querySelector('input').value)||0;
+    const riesgo=parseFloat(riesgoInput.value)||0;
+    const cards=cardsContainer.querySelectorAll('.card');
+    beneficioTotal=0; let sumaPorc=0;
+    cards.forEach(card=>{
+        const porc=parseFloat(card.querySelector('.porcentaje').value)||0;
+        const rr=parseFloat(card.querySelector('.rr').value)||0;
         sumaPorc+=porc;
         const ganancia=porc/100*riesgo*rr;
         beneficioTotal+=ganancia;
-        fila.classList.toggle('parcial-positivo', ganancia>0);
+        const barra=card.querySelector('.progress');
+        barra.style.width=porc+'%';
+        barra.style.background=ganancia>=0?'#4caf50':'#e53935';
     });
     document.getElementById('warning').style.display=(sumaPorc>100)?"block":"none";
-    const multiplicador = riesgo>0 ? beneficioTotal/riesgo : 0;
-    const porcentaje = riesgo>0 ? (beneficioTotal/riesgo)*100 : 0;
+    const multiplicador=riesgo>0?beneficioTotal/riesgo:0;
+    const porcentaje=riesgo>0?(beneficioTotal/riesgo)*100:0;
     resultadoDiv.textContent=`Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | +${porcentaje.toFixed(2)}%`;
 }
 
-agregarParcial();
-addParcialBtn.addEventListener('click',()=>agregarParcial());
-resetBtn.addEventListener('click',()=>{
-    riesgoInput.value=''; tbody.innerHTML=''; agregarParcial(); calcular();
-});
+addParcialBtn.addEventListener('click',()=>crearCard());
+resetBtn.addEventListener('click',()=>{ riesgoInput.value=''; cardsContainer.innerHTML=''; crearCard(); calcular(); });
 riesgoInput.addEventListener('input',calcular);
-
 toggleCapitalBtn.addEventListener('click',()=>capitalBlock.classList.toggle('show'));
 calcularCapitalBtn.addEventListener('click',()=>{
     const capital=parseFloat(capitalInput.value)||0;
@@ -193,11 +168,12 @@ calcularCapitalBtn.addEventListener('click',()=>{
         resultadoCapitalDiv.textContent=`Ganancia sobre capital: $${beneficioTotal.toFixed(2)} | +${porcentaje.toFixed(2)}%`;
     }
 });
-
 themeBtn.addEventListener('click',()=>{
     document.body.classList.toggle('dark');
     icon.classList.replace(document.body.classList.contains('dark')?"fa-moon":"fa-sun",document.body.classList.contains('dark')?"fa-sun":"fa-moon");
 });
+
+crearCard(); // card inicial
 </script>
 </body>
 </html>
