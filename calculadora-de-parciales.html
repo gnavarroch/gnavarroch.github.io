@@ -25,9 +25,9 @@ body.dark h2 { color:#ccc; }
 
 label { font-weight:600; margin-top:15px; display:block; font-size:15px; }
 .input-with-tooltip { display:flex; align-items:center; gap:6px; }
-.tooltip { position:relative; display:inline-block; cursor:pointer; color:#007BFF; font-size:14px; }
-.tooltip .tooltiptext { visibility:hidden; width:200px; background:#333; color:#fff; text-align:left; border-radius:8px; padding:8px; position:absolute; z-index:1; bottom:125%; left:50%; margin-left:-100px; opacity:0; transition:opacity 0.3s;}
-.tooltip:hover .tooltiptext { visibility:visible; opacity:1; }
+.tooltip { position: relative; display: inline-block; cursor: pointer; color:#007BFF; font-size:14px; }
+.tooltiptext { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: left; border-radius: 8px; padding: 8px; position: absolute; z-index: 10; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s;}
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
 
 input { width:100%; padding:12px; margin-top:6px; border-radius:10px; border:1px solid #ccc; font-size:16px; transition:0.3s; background:#fff; color:#000; box-sizing:border-box;}
 body.dark input { background:#2a2a2a; color:#e0e0e0; border:1px solid #555;}
@@ -160,11 +160,12 @@ function agregarParcial(porcentaje="", rr="") {
     const tbody = document.querySelector("#tablaParciales tbody");
     const fila = document.createElement("tr");
     fila.innerHTML = `
-        <td><input type="number" class="porcentaje" placeholder="25" value="${porcentaje}" oninput="calcular()"></td>
-        <td><input type="number" class="rr" placeholder="2" value="${rr}" oninput="calcular()"></td>
+        <td><input type="number" class="porcentaje" placeholder="25" value="${porcentaje}"></td>
+        <td><input type="number" class="rr" placeholder="2" value="${rr}"></td>
         <td><button class="remove-btn" onclick="eliminarFila(this)"><i class="fa-solid fa-xmark"></i></button></td>
     `;
     tbody.appendChild(fila);
+    fila.querySelectorAll('input').forEach(input => input.addEventListener('input', calcular));
     calcular();
 }
 
@@ -206,14 +207,10 @@ function calcular() {
         if(ganancia>0) fila.classList.add('parcial-positivo');
     });
 
-    // Validación visual
-    if(sumaParciales>100) document.getElementById('warning').style.display = "block";
-    else document.getElementById('warning').style.display = "none";
+    document.getElementById('warning').style.display = (sumaParciales>100) ? "block":"none";
 
     const multiplicador = riesgo>0 ? (beneficioTotal/ riesgo) : 0;
     const porcentajeGanancia = riesgo>0 ? (beneficioTotal/ riesgo)*100 : 0;
 
     const resultado = document.getElementById('resultado');
     resultado.innerText = `Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | ${porcentajeGanancia.toFixed(2)}%`;
-
-   
