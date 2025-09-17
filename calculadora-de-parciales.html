@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Parciales - Dashboard Mejorada</title>
+<title>Calculadora de Parciales - Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,6 +31,9 @@ button { padding:14px; width:100%; border:none; border-radius:18px; font-weight:
 button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.25);}
 .reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); margin-top:10px; }
 .reset-btn:hover { box-shadow:0 6px 16px rgba(255,0,0,0.25); }
+
+/* Separación botones */
+#botonesContainer { display:flex; gap:10px; margin-top:10px; }
 
 /* CARDS */
 .card { background: rgba(255,255,255,0.15); backdrop-filter:blur(12px); border-radius:20px; padding:18px; margin-top:15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); transition:0.3s; opacity:0; transform:translateY(20px); animation:fadeIn 0.5s forwards;}
@@ -99,8 +102,11 @@ body.dark canvas { background:rgba(30,30,30,0.2); }
 </header>
 
 <label>Riesgo inicial ($): <input type="number" id="riesgo" value="100"></label>
+
+<div id="botonesContainer">
 <button id="addParcial">Agregar parcial</button>
 <button class="reset-btn" id="resetBtn">Reset</button>
+</div>
 
 <div id="cardsContainer"></div>
 <div id="warning">⚠️ La suma de parciales excede el 100%</div>
@@ -147,7 +153,7 @@ function crearCard(porcentaje='', rr=''){
             <h3>Parcial</h3>
             <button class="remove-btn" title="Quitar parcial"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <label class="tooltip" data-tip="Porcentaje de la posición">${'% de posición:'} <input type="number" class="porcentaje" value="${porcentaje}"></label>
+        <label class="tooltip" data-tip="Porcentaje de la posición">% de posición: <input type="number" class="porcentaje" value="${porcentaje}"></label>
         <label class="tooltip" data-tip="Riesgo:Recompensa esperado">R:R: <input type="number" class="rr" value="${rr}"></label>
         <div class="progress-container"><div class="progress"></div></div>
     `;
@@ -166,23 +172,31 @@ function calcular(){
     cards.forEach((card,i)=>{
         const porc=parseFloat(card.querySelector('.porcentaje').value)||0;
         const rr=parseFloat(card.querySelector('.rr').value)||0;
-        sumaParc+=porc;
-        const ganancia=porc/100*riesgo*rr;
+        sumaPorc+=porc;
+        const ganancia=(porc/100)*riesgo*rr;
         beneficioTotal+=ganancia;
+
         const barra=card.querySelector('.progress');
         barra.style.width=Math.min(porc,100)+'%';
         barra.style.background=ganancia>=0?'#4caf50':'#e53935';
+
         labels.push(`Parcial ${i+1}`);
         data.push(ganancia);
         colors.push(ganancia>=0?'#4caf50':'#e53935');
     });
-    document.getElementById('warning').style.display=(sumaParc>100)?"block":"none";
+
+    document.getElementById('warning').style.display=(sumaPorc>100)?"block":"none";
+
     const multiplicador=riesgo>0?beneficioTotal/riesgo:0;
     const porcentaje=riesgo>0?(beneficioTotal/riesgo)*100:0;
     resultadoDiv.textContent=`Multiplicador: ${multiplicador.toFixed(2)}x | Ganancia total: $${beneficioTotal.toFixed(2)} | +${porcentaje.toFixed(2)}%`;
 
-    if(chart){ chart.destroy(); }
-    chart=new Chart(ctx,{type:'pie',data:{labels,data:data,datasets:[{label:'Ganancia por parcial',data:data,backgroundColor:colors}]}});
+    if(chart) chart.destroy();
+    chart=new Chart(ctx,{
+        type:'pie',
+        data:{ labels, datasets:[{label:'Ganancia por parcial', data, backgroundColor:colors}] },
+        options:{ responsive:true, plugins:{ legend:{ position:'bottom' } } }
+    });
 }
 
 addParcialBtn.addEventListener('click',()=>crearCard());
