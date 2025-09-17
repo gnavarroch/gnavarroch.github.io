@@ -4,40 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Parciales - Trading</title>
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2643/2643883.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 <style>
-body { font-family:'Inter',sans-serif; margin:0; padding:50px 20px; display:flex; justify-content:center; background:#f0f4f8; transition:background 0.3s,color 0.3s; color:#000; }
+body { font-family:'Inter',sans-serif; margin:0; padding:50px 20px; display:flex; justify-content:center; background:#f0f4f8; color:#000; transition:0.3s;}
 body.dark { background:#121212; color:#e0e0e0; }
+
 .container { background:#ffffffcc; backdrop-filter:blur(10px); padding:40px 35px; border-radius:24px; box-shadow:0 15px 35px rgba(0,0,0,0.2); max-width:580px; width:100%; transition:all 0.3s; position:relative;}
 body.dark .container { background:#1e1e1ecc; box-shadow:0 15px 35px rgba(0,0,0,0.7);}
 .container:hover { transform:translateY(-4px);}
+
 .theme-toggle { position:absolute; top:15px; right:15px; background:#f0f0f0; border:none; border-radius:50%; width:40px; height:40px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:0.3s; box-shadow:0 3px 8px rgba(0,0,0,0.15);}
 .theme-toggle:hover { transform:scale(1.1);}
 body.dark .theme-toggle { background:#2a2a2a; color:#ffd43b; }
+
 h1 { font-family:'Poppins',sans-serif; text-align:center; margin-bottom:10px; font-size:2.1em; }
 h2 { text-align:center; font-size:1.1em; color:#555; margin-bottom:25px; }
 body.dark h2 { color:#ccc; }
+
 label { font-weight:600; margin-top:15px; display:block; font-size:15px; }
-.tooltip { position: relative; display: inline-block; cursor: pointer; color:#007BFF; font-size:14px; }
-.tooltiptext { visibility: hidden; width: 220px; background: #333; color: #fff; text-align: left; border-radius: 8px; padding: 8px; position: absolute; z-index: 10; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s;}
-.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+
+.tooltip { position: relative; display: inline-block; cursor: pointer; color:#007BFF; }
+.tooltip .tooltiptext { visibility: hidden; width:200px; background:#333; color:#fff; text-align:left; padding:6px; border-radius:6px; position:absolute; z-index:10; bottom:125%; left:50%; transform:translateX(-50%); opacity:0; transition:opacity 0.3s;}
+.tooltip:hover .tooltiptext { visibility: visible; opacity:1; }
+
 input { width:100%; padding:12px; margin-top:6px; border-radius:10px; border:1px solid #ccc; font-size:16px; transition:0.3s; background:#fff; color:#000; box-sizing:border-box;}
 body.dark input { background:#2a2a2a; color:#e0e0e0; border:1px solid #555;}
-input:focus { border:2px solid #007BFF; outline:none; box-shadow:0 0 8px rgba(0,123,255,0.5);}
-button { margin-top:15px; width:100%; padding:14px; border:none; border-radius:14px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:white; font-weight:600; font-size:16px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; }
+input:focus { border:2px solid #007BFF; outline:none; box-shadow:0 0 8px rgba(0,123,255,0.5); }
+
+button { margin-top:15px; width:100%; padding:14px; border:none; border-radius:14px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:white; font-weight:600; font-size:16px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;}
 button:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.2);}
 .reset-btn { background:linear-gradient(90deg,#FF4D4D,#FF7B7B); margin-top:10px;}
 .reset-btn:hover { box-shadow:0 6px 16px rgba(255,0,0,0.25); }
-table { width:100%; border-collapse:collapse; margin-top:20px; border-radius:14px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+
+table { width:100%; border-collapse: separate; border-spacing:0; margin-top:20px; border-radius:14px; overflow:visible; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
 body.dark table { box-shadow:0 5px 15px rgba(0,0,0,0.6);}
-th, td { padding:14px; text-align:center; border-bottom:1px solid #ddd; font-size:15px; }
+th, td { padding:14px; text-align:center; border-bottom:1px solid #ddd; font-size:15px; overflow:visible;}
 body.dark th, body.dark td { border-bottom:1px solid #555; color:#e0e0e0;}
-th { background:#007BFF; color:white; font-size:15px; }
+th { background:#007BFF; color:white; font-size:15px; overflow:visible;}
 tr:last-child td { border-bottom:none; }
+
 .remove-btn { background:#FF4D4D; border:none; border-radius:8px; padding:8px 14px; color:white; cursor:pointer; font-weight:bold; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:5px; }
-.remove-btn:hover { transform:scale(1.1);}
+.remove-btn:hover { transform:scale(1.1); }
+
 #resultado { margin-top:30px; font-size:1.25em; font-weight:bold; text-align:center; padding:15px; border-radius:14px; transition:0.3s; box-shadow: inset 0 2px 6px rgba(0,123,255,0.1);}
 #resultado.verde { background:#e6ffe6; color:#2e7d32;}
 #resultado.rojo { background:#ffe6e6; color:#c62828;}
@@ -45,21 +54,27 @@ tr:last-child td { border-bottom:none; }
 body.dark #resultado.verde { background:#1b3321; color:#81c784;}
 body.dark #resultado.rojo { background:#331b1b; color:#ef5350;}
 body.dark #resultado.gris { background:#2a2a2a; color:#aaa;}
+
 #capitalBlock { margin-top:20px; padding:0; border-radius:16px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s ease, opacity 0.5s ease, padding 0.5s; }
 #capitalBlock.show { padding:20px; max-height:500px; opacity:1; background:#f9f9f9; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 body.dark #capitalBlock.show { background:#2a2a2a; }
+
 #warning { margin-top:12px; text-align:center; font-size:14px; font-weight:bold; color:red; display:none; }
+
 .conclusion { margin-top:18px; font-size:14px; line-height:1.6; text-align:center; color:#444; }
 body.dark .conclusion { color:#bbb; }
+
 .creditos { margin-top:25px; font-size:12px; text-align:center; color:#555; }
 .creditos a { color:#007BFF; text-decoration:none; font-weight:600;}
 .creditos a:hover { text-decoration:underline;}
+
 .parcial-positivo { background-color:#d4f8d4; transition:0.3s; }
 </style>
 </head>
 <body>
 <div class="container">
 <button id="toggleTheme" class="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+
 <h1>Calculadora de Parciales</h1>
 <h2>Controla tus ganancias al tomar parciales en tus trades.</h2>
 
@@ -116,6 +131,8 @@ const capitalBlock = document.getElementById('capitalBlock');
 const calcularCapitalBtn = document.getElementById('calcularCapitalBtn');
 const capitalInput = document.getElementById('capital');
 const resultadoCapitalDiv = document.getElementById('resultadoCapital');
+const themeBtn = document.getElementById('toggleTheme');
+const icon = themeBtn.querySelector('i');
 let beneficioTotal = 0;
 
 function agregarParcial(porcentaje='', rr=''){
@@ -129,8 +146,7 @@ function agregarParcial(porcentaje='', rr=''){
     tdRR.appendChild(inputRR);
 
     const tdAccion=document.createElement('td');
-    const btnRemove=document.createElement('button'); btnRemove.className='remove-btn';
-    btnRemove.innerHTML='<i class="fa-solid fa-xmark"></i>';
+    const btnRemove=document.createElement('button'); btnRemove.className='remove-btn'; btnRemove.innerHTML='<i class="fa-solid fa-xmark"></i>';
     btnRemove.addEventListener('click',()=>{ tr.remove(); calcular(); });
     tdAccion.appendChild(btnRemove);
 
@@ -148,16 +164,14 @@ function calcular(){
     const filas=tbody.querySelectorAll('tr');
     beneficioTotal=0;
     let sumaPorc=0;
-
     filas.forEach(fila=>{
         const porc=parseFloat(fila.cells[0].querySelector('input').value)||0;
         const rr=parseFloat(fila.cells[1].querySelector('input').value)||0;
         sumaPorc+=porc;
         const ganancia=porc/100*riesgo*rr;
         beneficioTotal+=ganancia;
-        if(ganancia>0){ fila.classList.add('parcial-positivo'); } else { fila.classList.remove('parcial-positivo'); }
+        fila.classList.toggle('parcial-positivo', ganancia>0);
     });
-
     document.getElementById('warning').style.display=(sumaPorc>100)?"block":"none";
     const multiplicador = riesgo>0 ? beneficioTotal/riesgo : 0;
     const porcentaje = riesgo>0 ? (beneficioTotal/riesgo)*100 : 0;
@@ -165,7 +179,6 @@ function calcular(){
 }
 
 agregarParcial();
-
 addParcialBtn.addEventListener('click',()=>agregarParcial());
 resetBtn.addEventListener('click',()=>{
     riesgoInput.value=''; tbody.innerHTML=''; agregarParcial(); calcular();
@@ -181,8 +194,6 @@ calcularCapitalBtn.addEventListener('click',()=>{
     }
 });
 
-const themeBtn=document.getElementById('toggleTheme');
-const icon=themeBtn.querySelector('i');
 themeBtn.addEventListener('click',()=>{
     document.body.classList.toggle('dark');
     icon.classList.replace(document.body.classList.contains('dark')?"fa-moon":"fa-sun",document.body.classList.contains('dark')?"fa-sun":"fa-moon");
